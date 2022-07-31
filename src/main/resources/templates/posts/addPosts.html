@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+
+<th:block layout:fragment="css">
+    <style>
+        form {
+            position: relative;
+            min-height: 100%;
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto 20px auto;
+        }
+        .field-error {
+            color : red;
+        }
+    </style>
+</th:block>
+
+
+<div layout:fragment="content" class="content">
+    <form th:action method="post"  th:object="${postsFormRequestDto}">
+        <div class="form-group">
+            <label for="title">제목</label>
+            <input type="text" class="form-control" id="title" th:field="*{title}"  placeholder="제목을 입력하세요." >
+        </div>
+        <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="field-error"></p>
+        <div class="form-group">
+            <label for="writer">작성자</label>
+            <input type="text" class="form-control" id="writer" th:field="*{writer}" placeholder="작성자">
+        </div>
+        <p th:if="${#fields.hasErrors('writer')}" th:errors="*{writer}" class="field-error"></p>
+        <div class="form-group">
+            <label for="content">내용</label>
+            <textarea class="form-control" id="content" th:field="*{content}" rows="3"></textarea>
+        </div>
+        <p th:if="${#fields.hasErrors('content')}" th:errors="*{content}" class="field-error"></p>
+        <button class="btn btn btn-success" type="submit">작성</button>
+    </form>
+</div>

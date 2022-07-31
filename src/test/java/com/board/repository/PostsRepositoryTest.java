@@ -26,10 +26,11 @@ class PostsRepositoryTest {
     @Test
     void createPosts() {
 
-        Posts posts = new Posts();
-        posts.setTitle("title");
-        posts.setContent("content");
-        posts.setWriter("writer");
+        Posts posts = Posts.builder()
+                .title("title")
+                .content("content")
+                .writer("writer")
+                .build();
 
         Posts savedPosts = postsRepository.save(posts);
 
