@@ -8,7 +8,6 @@
     <style>
         tr {
             text-align : center;
-            text-
         }
     </style>
 </th:block>
@@ -18,18 +17,18 @@
     <table class="table table-hover">
         <thead>
         <tr>
-            <th scope="col">#</th>
+            <th scope="col">No</th>
             <th scope="col">제목</th>
             <th scope="col">작성자</th>
             <th scope="col">게시일</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="post : ${posts}" class="font-weight-normal">
-            <th th:text="${post.id}"></th>
-            <th th:text="${post.title}"></th>
-            <th th:text="${post.writer}"></th>
-            <th th:text="${post.createdDate}"></th>
+        <tr th:each="post : ${postsListResponseDtos}" class="font-weight-normal">
+            <td th:text="${post.id}"></td>
+            <td><a th:href="@{/posts/{postsId}(postsId=${post.id})}" th:text="${post.title}"></a></td>
+            <td th:text="${post.writer}"></td>
+            <td th:text="${post.createdDate}"></td>
         </tr>
         </tbody>
     </table>

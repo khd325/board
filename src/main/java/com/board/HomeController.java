@@ -19,7 +19,7 @@ public class HomeController {
     public String home(Model model) {
         List<PostsListResponseDto> postsListResponseDtos = postsService.findAllDesc();
 
-        model.addAttribute("posts",postsListResponseDtos);
+        model.addAttribute("postsListResponseDtos",postsListResponseDtos);
         return "home";
     }
 }

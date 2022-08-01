@@ -14,14 +14,13 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class Posts extends BaseTimeEntity{
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
-    @Column(columnDefinition = "TEXT",nullable = false)
+    @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false)
+    @Column(columnDefinition = "TEXT",nullable = false)
     private String content;
 
     @Column(nullable = false)
