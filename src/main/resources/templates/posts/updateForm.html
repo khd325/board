@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+        function update() {
+            const data = {
+                title:  $.trim($('#title').val()),
+                content: $.trim($('#content').val()),
+            };
+
+            if (data.title === '' || data.content === '' || data.title === null || data.content === null){
+                alert('제목 또는 내용은 비어있을 수 없습니다.');
+                return false;
+            }
+
+            let id = $('#id').text().split(' ');
+            id = Number(id[1]);
+            $.ajax({
+                type: 'PUT',
+                url: '/posts/update/' + id,
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8;',
+                data: JSON.stringify(data),
+            }).done(function () {
+                alert('글이 수정되었습니다.');
+                window.location.href = '/posts/' + id;
+            }).fail(function (error) {
+                alert(JSON.stringify(error));
+            });
+        }
+
+    </script>
+</th:block>
+
+<div layout:fragment="content" class="content">
+
+    <div class="card" th:object="${posts}">
+        <div class="card-header">
+            <span th:text="|No ${posts.id}|" id="id" style="float:left;"></span>
+            <span th:text="${posts.createdDate}" style="float:right;"></span>
+        </div>
+        <div class="card-header">
+            <span th:text="|작성자: ${posts.writer}|"></span>
+        </div>
+        <div class="card-body">
+            <label for="title">제목</label>
+            <input type="text" id="title" class="form-control" th:field="*{title}">
+        </div>
+        <div class="card-body">
+            <label for="content">내용</label>
+            <textarea rows="5" id="content" class="form-control" th:text="${posts.content}"></textarea>
+        </div>
+    </div>
+    <a th:href="@{/posts/{postsId}(postsId=${posts.id})}" role="button" class="btn btn-secondary">취소</a>
+    <button type="button" class="btn btn-primary" onclick="update()">수정</button>
+</div>

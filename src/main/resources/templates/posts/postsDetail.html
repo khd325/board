@@ -3,26 +3,53 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout}">
 
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+
+        function deletePosts() {
+            const check = confirm('정말 삭제 하시겠습니까?');
+
+            if (check) {
+                let id = $('#id').text().split(' ')
+                id = Number(id[1]);
+
+                $.ajax({
+                    type: 'DELETE',
+                    url: '/posts/' + id,
+                    dataType: 'json',
+                    contentType: 'application/json; charset=utf-8'
+                }).done(function() {
+                    alert('게시글이 삭제되었습니다.');
+                    window.location.href = '/';
+                }).fail(function (error){
+                    alert(JSON.stringify(error));
+                })
+            }
+        }
+    </script>
+</th:block>
+
+
 <div layout:fragment="content" class="content">
 
-    <div class="card" th:object="${postsResponseDto}">
+    <div class="card" th:object="${posts}">
         <div class="card-header">
-            <span th:text="|No ${postsResponseDto.id}|" style="float:left;"></span>
-            <span th:text="${postsResponseDto.createdDate}" style="float:right;"></span>
+            <span th:text="|No ${posts.id}|" id="id" style="float:left;"></span>
+            <span th:text="${posts.createdDate}" style="float:right;"></span>
         </div>
         <div class="card-header">
-            <span th:text="|작성자: ${postsResponseDto.writer}|"></span>
+            <span th:text="|작성자: ${posts.writer}|"></span>
         </div>
         <div class="card-body">
-                <label for="title">제목</label>
-                <input type="text" id="title" class="form-control" th:field="*{title}" readonly>
+            <label for="title">제목</label>
+            <input type="text" id="title" class="form-control" th:field="*{title}" readonly>
         </div>
         <div class="card-body">
             <label for="content">내용</label>
-            <textarea rows="5" id="content" class="form-control" th:text="${postsResponseDto.content}" readonly></textarea>
+            <textarea rows="5" id="content" class="form-control" th:text="${posts.content}" readonly></textarea>
         </div>
     </div>
     <a href="/" role="button" class="btn btn-secondary">목록</a>
-    <a href=# role="button" class="btn btn-primary">수정</a>
-    <button type="button" class="btn btn-danger">삭제</button>
+    <a th:href="@{/posts/update/{postsId}(postsId=${posts.id})}" role="button" class="btn btn-primary">수정</a>
+    <button type="button" class="btn btn-danger" onclick="deletePosts()">삭제</button>
 </div>

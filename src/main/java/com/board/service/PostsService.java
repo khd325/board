@@ -5,6 +5,7 @@ import com.board.repository.PostsRepository;
 import com.board.web.dto.PostsFormRequestDto;
 import com.board.web.dto.PostsListResponseDto;
 import com.board.web.dto.PostsResponseDto;
+import com.board.web.dto.PostsUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,12 +35,27 @@ public class PostsService {
         return posts.getId();
     }
 
+    @Transactional
+    public Long updatePosts(Long postsId,PostsUpdateRequestDto postsUpdateRequestDto) {
+        Posts posts = postsRepository.findById(postsId)
+                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 게시글 입니다."));
+
+        posts.update(postsUpdateRequestDto.getTitle(), postsUpdateRequestDto.getContent());
+
+        return posts.getId();
+    }
+
+    @Transactional
+    public void deletePosts(Long postsId) {
+        Posts posts = postsRepository.findById(postsId).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 게시글 입니다."));
+
+        postsRepository.delete(posts);
+    }
+
     @Transactional(readOnly = true)
     public PostsResponseDto findById(Long id){
         Posts posts = postsRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 게시글 입니다."));
 
         return new PostsResponseDto(posts);
     }
-
-
 }
