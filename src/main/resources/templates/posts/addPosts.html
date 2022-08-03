@@ -3,6 +3,21 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout}">
 
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+        $(document).ready(() => {
+            var errorMessage = [[${errorMessage}]];
+
+            if(errorMessage != null){
+                alert(errorMessage);
+            }
+        })
+
+    </script>
+
+</th:block>
+
+
 <th:block layout:fragment="css">
     <style>
         form {

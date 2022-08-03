@@ -16,9 +16,6 @@ public class PostsUpdateRequestDto {
     @NotEmpty(message = "내용을 입력해주세요")
     private String content;
 
-    PostsUpdateRequestDto(){
-
-    }
 
     public PostsUpdateRequestDto(String title, String content) {
         this.title = title;

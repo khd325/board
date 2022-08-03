@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class PostsFormRequestDto {
 
     @NotEmpty(message = "제목을 입력해주세요")
@@ -26,9 +27,7 @@ public class PostsFormRequestDto {
         this.content = content;
         this.writer = writer;
     }
-    public PostsFormRequestDto() {
 
-    }
 
     @Builder
     public Posts toEntity() {
