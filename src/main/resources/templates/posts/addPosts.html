@@ -35,7 +35,7 @@
 
 
 <div layout:fragment="content" class="content">
-    <form th:action method="post"  th:object="${posts}">
+    <form th:action method="post"  th:object="${postsFormRequestDto}">
         <div class="form-group">
             <label for="title">제목</label>
             <input type="text" class="form-control" id="title" th:field="*{title}"  placeholder="제목을 입력하세요." >

@@ -24,7 +24,7 @@ public class PostsController {
 
     @GetMapping("/save")
     public String postsForm(Model model) {
-        model.addAttribute("posts", new PostsFormRequestDto());
+        model.addAttribute("postsFormRequestDto", new PostsFormRequestDto());
         return "posts/addPosts";
     }
 

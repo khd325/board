@@ -20,6 +20,7 @@ public class PostsFormRequestDto {
     @NotEmpty(message = "내용을 입력해주세요")
     private String content;
 
+    @NotEmpty(message = "작성자를 입력해주세요")
     private String writer;
 
     public PostsFormRequestDto(String title, String content, String writer) {
