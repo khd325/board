@@ -8,6 +8,7 @@ import javax.validation.constraints.NotEmpty;
 @Getter
 @ToString
 @Setter
+@NoArgsConstructor
 public class PostsUpdateRequestDto {
 
     @NotEmpty(message = "제목을 입력해주세요")

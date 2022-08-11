@@ -83,4 +83,5 @@ public class PostsController {
 
         return postsService.updatePosts(postsId, postsUpdateRequestDto);
     }
+
 }

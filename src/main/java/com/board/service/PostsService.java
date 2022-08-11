@@ -2,11 +2,10 @@ package com.board.service;
 
 import com.board.entity.Posts;
 import com.board.repository.PostsRepository;
-import com.board.web.dto.PostsFormRequestDto;
-import com.board.web.dto.PostsListResponseDto;
-import com.board.web.dto.PostsResponseDto;
-import com.board.web.dto.PostsUpdateRequestDto;
+import com.board.web.dto.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -57,5 +56,10 @@ public class PostsService {
         Posts posts = postsRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 게시글 입니다."));
 
         return new PostsResponseDto(posts);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Posts> getPostsPage(PostsSearchDto postsSearchDto, Pageable pageable){
+        return postsRepository.getPostsPage(postsSearchDto,pageable);
     }
 }

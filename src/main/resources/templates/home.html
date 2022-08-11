@@ -7,32 +7,85 @@
 <th:block layout:fragment="css">
     <style>
         tr {
-            text-align : center;
+            text-align: center;
         }
     </style>
 </th:block>
 
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+
+        $(document).ready(function(){
+            $("#searchBtn").on("click",function(e){
+                e.preventDefault();
+                page(0);
+            });
+        });
+
+        function page(page){
+            let searchBy = $("#searchBy").val();
+            let searchQuery = $("#searchQuery").val();
+
+            location.href="/" + page + "?searchBy="+searchBy
+            +"&searchQuery="+searchQuery;
+        }
+    </script>
+</th:block>
 <div layout:fragment="content" class="content">
 
-    <table class="table table-hover">
-        <thead>
-        <tr>
-            <th scope="col">No</th>
-            <th scope="col">제목</th>
-            <th scope="col">작성자</th>
-            <th scope="col">게시일</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="post : ${postsListResponseDtos}" class="font-weight-normal">
-            <td th:text="${post.id}"></td>
-            <td><a th:href="@{/posts/{postsId}(postsId=${post.id})}" th:text="${post.title}"></a></td>
-            <td th:text="${post.writer}"></td>
-            <td th:text="${post.createdDate}"></td>
-        </tr>
-        </tbody>
-    </table>
-    <div class="text-right">
-        <a href="/posts/save" role="button" class="btn btn-primary">글쓰기</a>
-    </div>
+    <form th:action="@{'/' + ${posts.number}}" role="form" method="get" th:object="${posts}">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">No</th>
+                <th scope="col">제목</th>
+                <th scope="col">작성자</th>
+                <th scope="col">게시일</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="post : ${posts.content}" class="font-weight-normal">
+                <td th:text="${post.id}"></td>
+                <td><a th:href="@{/posts/{postsId}(postsId=${post.id})}" th:text="${post.title}"></a></td>
+                <td th:text="${post.writer}"></td>
+                <td th:text="${post.createdDate}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="text-right">
+            <a href="/posts/save" role="button" class="btn btn-primary">글쓰기</a>
+        </div>
+
+        <div th:with="start=${(posts.number/maxPage)*maxPage + 1}, end=(${(posts.totalPages == 0) ? 1 : (start + (maxPage - 1) < posts.totalPages ? start + (maxPage - 1) : posts.totalPages)})" >
+            <ul class="pagination justify-content-center">
+
+                <li class="page-item" th:classappend="${posts.first}?'disabled'">
+                    <a th:onclick="'javascript:page(' + ${posts.number - 1} + ')'" aria-label='Previous' class="page-link">
+                        <span aria-hidden='true'>Previous</span>
+                    </a>
+                </li>
+
+                <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${posts.number eq page-1}?'active':''">
+                    <a th:onclick="'javascript:page(' + ${page - 1} + ')'" th:inline="text" class="page-link">[[${page}]]</a>
+                </li>
+
+                <li class="page-item" th:classappend="${posts.last}?'disabled'">
+                    <a th:onclick="'javascript:page(' + ${posts.number + 1} + ')'" aria-label='Next' class="page-link">
+                        <span aria-hidden='true'>Next</span>
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+
+        <div class="form-inline justify-content-center" th:object="${postsSearchDto}">
+            <select th:field="*{searchBy}" class="form-control" style="width:auto;">
+                <option value="title">제목</option>
+                <option value="writer">작성자</option>
+            </select>
+            <input th:field="*{searchQuery}" type="text" class="form-control" placeholder="검색어를 입력해주세요">
+            <button id="searchBtn" type="submit" class="btn btn-primary">검색</button>
+        </div>
+    </form>
+
 </div>
