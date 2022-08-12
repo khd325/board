@@ -2,7 +2,9 @@ package com.board.repository;
 
 import com.board.entity.Posts;
 import com.board.entity.QPosts;
+import com.board.web.dto.PostsListResponseDto;
 import com.board.web.dto.PostsSearchDto;
+import com.board.web.dto.QPostsListResponseDto;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -23,9 +25,16 @@ public class PostsRepositoryCustomImpl implements PostsRepositoryCustom {
     }
 
     @Override
-    public Page<Posts> getPostsPage(PostsSearchDto postsSearchDto, Pageable pageable) {
-        List<Posts> content = queryFactory
-                .selectFrom(QPosts.posts)
+    public Page<PostsListResponseDto> getPostsPage(PostsSearchDto postsSearchDto, Pageable pageable) {
+
+        List<PostsListResponseDto> content = queryFactory
+                .select(new QPostsListResponseDto(
+                        QPosts.posts.id,
+                        QPosts.posts.title,
+                        QPosts.posts.writer,
+                        QPosts.posts.createdDate
+                ))
+                .from(QPosts.posts)
                 .where(searchByLike(postsSearchDto.getSearchBy(), postsSearchDto.getSearchQuery()))
                 .orderBy(QPosts.posts.id.desc())
                 .offset(pageable.getOffset())

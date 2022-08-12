@@ -58,8 +58,13 @@ public class PostsService {
         return new PostsResponseDto(posts);
     }
 
+//    @Transactional(readOnly = true)
+//    public Page<Posts> getPostsPage(PostsSearchDto postsSearchDto, Pageable pageable){
+//        return postsRepository.getPostsPage(postsSearchDto,pageable);
+//    }
+
     @Transactional(readOnly = true)
-    public Page<Posts> getPostsPage(PostsSearchDto postsSearchDto, Pageable pageable){
+    public Page<PostsListResponseDto> getPostsPage(PostsSearchDto postsSearchDto, Pageable pageable){
         return postsRepository.getPostsPage(postsSearchDto,pageable);
     }
 }

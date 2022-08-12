@@ -33,7 +33,7 @@
 </th:block>
 <div layout:fragment="content" class="content">
 
-    <form th:action="@{'/' + ${posts.number}}" role="form" method="get" th:object="${posts}">
+    <form th:action="@{'/' + ${postsListResponseDto.number}}" role="form" method="get" th:object="${postsListResponseDto}">
         <table class="table table-hover">
             <thead>
             <tr>
@@ -44,7 +44,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="post : ${posts.content}" class="font-weight-normal">
+            <tr th:each="post : ${postsListResponseDto.content}" class="font-weight-normal">
                 <td th:text="${post.id}"></td>
                 <td><a th:href="@{/posts/{postsId}(postsId=${post.id})}" th:text="${post.title}"></a></td>
                 <td th:text="${post.writer}"></td>
@@ -56,21 +56,21 @@
             <a href="/posts/save" role="button" class="btn btn-primary">글쓰기</a>
         </div>
 
-        <div th:with="start=${(posts.number/maxPage)*maxPage + 1}, end=(${(posts.totalPages == 0) ? 1 : (start + (maxPage - 1) < posts.totalPages ? start + (maxPage - 1) : posts.totalPages)})" >
+        <div th:with="start=${(postsListResponseDto.number/maxPage)*maxPage + 1}, end=(${(postsListResponseDto.totalPages == 0) ? 1 : (start + (maxPage - 1) < postsListResponseDto.totalPages ? start + (maxPage - 1) : postsListResponseDto.totalPages)})" >
             <ul class="pagination justify-content-center">
 
-                <li class="page-item" th:classappend="${posts.first}?'disabled'">
-                    <a th:onclick="'javascript:page(' + ${posts.number - 1} + ')'" aria-label='Previous' class="page-link">
+                <li class="page-item" th:classappend="${postsListResponseDto.first}?'disabled'">
+                    <a th:onclick="'javascript:page(' + ${postsListResponseDto.number - 1} + ')'" aria-label='Previous' class="page-link">
                         <span aria-hidden='true'>Previous</span>
                     </a>
                 </li>
 
-                <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${posts.number eq page-1}?'active':''">
+                <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${postsListResponseDto.number eq page-1}?'active':''">
                     <a th:onclick="'javascript:page(' + ${page - 1} + ')'" th:inline="text" class="page-link">[[${page}]]</a>
                 </li>
 
-                <li class="page-item" th:classappend="${posts.last}?'disabled'">
-                    <a th:onclick="'javascript:page(' + ${posts.number + 1} + ')'" aria-label='Next' class="page-link">
+                <li class="page-item" th:classappend="${postsListResponseDto.last}?'disabled'">
+                    <a th:onclick="'javascript:page(' + ${postsListResponseDto.number + 1} + ')'" aria-label='Next' class="page-link">
                         <span aria-hidden='true'>Next</span>
                     </a>
                 </li>

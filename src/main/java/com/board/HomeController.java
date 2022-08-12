@@ -27,13 +27,13 @@ public class HomeController {
 
         Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 5);
 
-        Page<Posts> posts = postsService.getPostsPage(postsSearchDto, pageable);
+        Page<PostsListResponseDto> postsListResponseDto = postsService.getPostsPage(postsSearchDto, pageable);
 
 
 //        List<PostsListResponseDto> postsListResponseDtos = postsService.findAllDesc();
 
 //        model.addAttribute("postsListResponseDtos",postsListResponseDtos);
-        model.addAttribute("posts",posts);
+        model.addAttribute("postsListResponseDto",postsListResponseDto);
         model.addAttribute("postsSearchDto",postsSearchDto);
         model.addAttribute("maxPage",5);
 
